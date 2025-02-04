@@ -1,4 +1,6 @@
-## Node.js con TypeScript - Simplificado
+# Node.js con TypeScript - Simplificado
+
+## Ideal para empezar rápidamente con TypeScript en Node.js.
 
 ### 1. Instala dependencias
 
