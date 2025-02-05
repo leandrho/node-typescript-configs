@@ -1,4 +1,4 @@
-## ¿Qué es Jest?
+## Tutorial de Jest
 
 Jest es un framework de pruebas de JavaScript ampliamente utilizado y mantenido por Facebook. Su popularidad se debe a su facilidad de uso, su rica funcionalidad y su integración perfecta con proyectos de React, aunque funciona con cualquier proyecto de JavaScript o Typescript. Jest nos proporciona las herramientas necesarias para escribir, ejecutar y depurar pruebas de manera eficiente.
 
@@ -193,6 +193,104 @@ it('debería obtener datos de la API', (done) => {
     Es importante manejar los errores dentro del código asíncrono y pasarlos a `done()` en caso de que ocurran, para que Jest pueda marcar la prueba como fallida.
 
 En resumen, `done()` es una herramienta útil para pruebas asíncronas en Jest, especialmente cuando se trabaja con callbacks. Sin embargo, es importante entender cuándo y cómo usarlo correctamente para evitar errores y asegurar que tus pruebas sean confiables.
+
+
+### spyOn
+
+En esencia, `spyOn` es una función poderosa dentro de Jest que nos permite "espiar" el comportamiento de una función específica. Su propósito principal es monitorear si una función ha sido llamada, cuántas veces ha sido llamada y con qué argumentos ha sido llamada.
+
+**¿Cómo funciona `spyOn`?**
+
+1.  **Creación del espía:**
+
+    Utilizamos `jest.spyOn()` para crear un "espía" sobre una función existente. Esta función puede ser un método de un objeto, una función independiente o incluso una función importada de un módulo.
+
+    ```javascript
+    const objeto = {
+      miFuncion: () => {
+        // ...
+      },
+    };
+
+    const espia = jest.spyOn(objeto, 'miFuncion');
+    ```
+
+2.  **Llamada a la función espiada:**
+
+    Cuando se llama a la función original (en este caso, `objeto.miFuncion`), el espía registra esta llamada.
+
+3.  **Aserciones sobre el espía:**
+
+    Podemos utilizar el espía para realizar aserciones sobre cómo se ha comportado la función espiada. Por ejemplo, podemos verificar si ha sido llamada, cuántas veces ha sido llamada y con qué argumentos ha sido llamada.
+
+    ```javascript
+    expect(espia).toHaveBeenCalled(); // Verifica si la función fue llamada
+    expect(espia).toHaveBeenCalledTimes(2); // Verifica si la función fue llamada 2 veces
+    expect(espia).toHaveBeenCalledWith('argumento1', 'argumento2'); // Verifica si la función fue llamada con argumentos específicos
+    ```
+
+**¿Para qué sirve `spyOn`?**
+
+*   **Monitoreo del comportamiento de funciones:**
+
+    `spyOn` nos permite verificar si una función se está comportando como esperamos en diferentes escenarios. Esto es especialmente útil para probar interacciones entre diferentes partes de nuestro código.
+
+*   **Aislamiento de dependencias:**
+
+    Podemos utilizar `spyOn` para "espiar" las llamadas a funciones dependientes dentro de una unidad de código que estamos probando. Esto nos permite aislar la unidad bajo prueba y simular el comportamiento de las dependencias.
+
+*   **Pruebas de efectos secundarios:**
+
+    `spyOn` nos permite verificar si una función está produciendo los efectos secundarios esperados. Por ejemplo, podemos verificar si una función está modificando el estado de un objeto o realizando una llamada a una API externa.
+
+**Ejemplo práctico**
+
+Imagina que tienes un componente React que realiza una llamada a una API cuando se monta:
+
+```javascript
+class MiComponente extends React.Component {
+  componentDidMount() {
+    fetch('/api/datos')
+      .then(respuesta => respuesta.json())
+      .then(datos => {
+        // ...
+      });
+  }
+
+  // ...
+}
+```
+
+Para probar este componente con Jest y `spyOn`, podrías escribir la siguiente prueba:
+
+```javascript
+it('debería llamar a la API al montarse', () => {
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve({}),
+    })
+  );
+
+  mount(<MiComponente />);
+
+  expect(global.fetch).toHaveBeenCalledTimes(1);
+  expect(global.fetch).toHaveBeenCalledWith('/api/datos');
+});
+```
+
+En este ejemplo, utilizamos `jest.spyOn` para crear un espía sobre la función `fetch`. Luego, montamos el componente y verificamos si la función `fetch` fue llamada una vez y con el argumento correcto.
+
+**Consideraciones importantes**
+
+*   **Restauración del espía:**
+
+    Es importante restaurar el espía después de cada prueba para evitar efectos secundarios en otras pruebas. Puedes utilizar `espia.mockRestore()` para restaurar la función original.
+
+*   **Uso con mocks:**
+
+    `spyOn` se puede combinar con mocks para simular el comportamiento de una función y al mismo tiempo monitorear su comportamiento.
+
+En resumen, `spyOn` es una herramienta poderosa en Jest que nos permite "espiar" el comportamiento de funciones y realizar aserciones sobre ellas. Esto nos ayuda a escribir pruebas más completas y confiables.
 
 
 ### Otras características útiles
