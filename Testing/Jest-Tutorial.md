@@ -364,17 +364,17 @@ En resumen, `spyOn` es una herramienta poderosa en Jest que nos permite "espiar"
 En resumen, `expect.any()` es un matcher útil en Jest para verificar tipos de datos sin necesidad de conocer los valores exactos. Esto te permite escribir pruebas más flexibles y robustas, especialmente cuando trabajas con datos dinámicos o estructuras de datos complejas.
 
 
-### objectContaining
+### expect.objectContaining
 
-`objectContaining` es un matcher asimétrico en Jest que te permite verificar si un objeto contiene un conjunto específico de propiedades, sin necesidad de que coincida con todas las propiedades del objeto.
+`expect.objectContaining` es un matcher asimétrico en Jest que te permite verificar si un objeto contiene un conjunto específico de propiedades, sin necesidad de que coincida con todas las propiedades del objeto.
 
-**¿Cómo funciona `objectContaining`?**
+**¿Cómo funciona `expect.objectContaining`?**
 
-`objectContaining` toma un objeto como argumento, donde las claves son las propiedades que quieres verificar y los valores son los valores esperados de esas propiedades. Este matcher verifica si el objeto que se está probando contiene al menos las propiedades especificadas con los valores correspondientes.
+`expect.objectContaining` toma un objeto como argumento, donde las claves son las propiedades que quieres verificar y los valores son los valores esperados de esas propiedades. Este matcher verifica si el objeto que se está probando contiene al menos las propiedades especificadas con los valores correspondientes.
 
 **¿Para qué sirve `objectContaining`?**
 
-`objectContaining` es útil en situaciones donde:
+`expect.objectContaining` es útil en situaciones donde:
 
 *   **Solo te importan algunas propiedades del objeto:**
 
@@ -439,10 +439,10 @@ En resumen, `expect.any()` es un matcher útil en Jest para verificar tipos de d
 
 **Consideraciones importantes**
 
-*   `objectContaining` solo verifica si el objeto contiene las propiedades especificadas con los valores correspondientes. No verifica si el objeto tiene propiedades adicionales.
-*   Puedes combinar `objectContaining` con otros matchers para realizar aserciones más específicas sobre los valores de las propiedades.
+*   `expect.objectContaining` solo verifica si el objeto contiene las propiedades especificadas con los valores correspondientes. No verifica si el objeto tiene propiedades adicionales.
+*   Puedes combinar `expect.objectContaining` con otros matchers para realizar aserciones más específicas sobre los valores de las propiedades.
 
-En resumen, `objectContaining` es un matcher útil en Jest para verificar si un objeto contiene un conjunto específico de propiedades, sin necesidad de que coincida con todas las propiedades del objeto. Esto te permite escribir pruebas más flexibles y robustas, especialmente cuando trabajas con objetos complejos o datos dinámicos.
+En resumen, `expect.objectContaining` es un matcher útil en Jest para verificar si un objeto contiene un conjunto específico de propiedades, sin necesidad de que coincida con todas las propiedades del objeto. Esto te permite escribir pruebas más flexibles y robustas, especialmente cuando trabajas con objetos complejos o datos dinámicos.
 
 
 ### Otras características útiles
