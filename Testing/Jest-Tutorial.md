@@ -105,6 +105,95 @@ miFuncionMock(); // Llama al mock
 expect(miFuncionMock).toHaveBeenCalled(); // Verifica si se llamó al mock
 expect(miFuncionMock()).toBe(10); // Verifica el valor de retorno del mock
 ```
+### Done
+
+**Done()**
+
+En esencia, `done()` es una función callback que se utiliza en pruebas asíncronas dentro de Jest. Su propósito principal es indicarle a Jest que una prueba ha finalizado, especialmente cuando se trata de código asíncrono que no se resuelve de inmediato.
+
+**¿Cómo funciona `done()`?**
+
+Cuando trabajas con código asíncrono, como llamadas a APIs, timers o eventos, las pruebas pueden completarse antes de que el código asíncrono haya terminado de ejecutarse. Aquí es donde `done()` se vuelve crucial.
+
+1.  **Definición de la prueba:**
+
+    Dentro de una prueba (`it`), se proporciona un argumento a la función de prueba. Este argumento es la función `done()`.
+
+    ```javascript
+    it('debería obtener datos de la API', (done) => {
+      // Código asíncrono aquí
+    });
+    ```
+
+2.  **Llamada a `done()`:**
+
+    Dentro del código asíncrono, una vez que la operación asíncrona ha finalizado y se han realizado las aserciones necesarias, se llama a la función `done()`. Esto le indica a Jest que la prueba ha terminado.
+
+    ```javascript
+    it('debería obtener datos de la API', (done) => {
+      obtenerDatosDeLaAPI((datos) => {
+        expect(datos).toBeDefined();
+        done(); // Indica que la prueba ha terminado
+      });
+    });
+    ```
+
+**¿Para qué sirve `done()`?**
+
+*   **Control del tiempo de finalización de la prueba:**
+
+    `done()` permite controlar cuándo se considera que una prueba ha terminado, lo cual es esencial para pruebas asíncronas donde la operación puede tomar un tiempo indeterminado.
+
+*   **Pruebas de callbacks:**
+
+    Aunque las promesas y `async/await` son más comunes ahora, `done()` sigue siendo útil para probar código que utiliza callbacks.
+
+*   **Manejo de errores en pruebas asíncronas:**
+
+    Puedes pasar un error a `done()` (`done(error)`) para indicar que la prueba ha fallado debido a un error en el código asíncrono.
+
+**Ejemplo práctico**
+
+Imagina que tienes una función que simula una llamada a una API:
+
+```javascript
+function obtenerDatosDeLaAPI(callback) {
+  setTimeout(() => {
+    const datos = { nombre: 'Juan', edad: 30 };
+    callback(datos);
+  }, 1000); // Simula una llamada a la API que tarda 1 segundo
+}
+```
+
+Para probar esta función con Jest y `done()`, podrías escribir la siguiente prueba:
+
+```javascript
+it('debería obtener datos de la API', (done) => {
+  obtenerDatosDeLaAPI((datos) => {
+    expect(datos).toBeDefined();
+    expect(datos.nombre).toBe('Juan');
+    expect(datos.edad).toBe(30);
+    done(); // Indica que la prueba ha terminado
+  });
+});
+```
+
+**Consideraciones importantes**
+
+*   **Evita usar `done()` con promesas y `async/await`:**
+
+    Si utilizas promesas o `async/await`, Jest maneja automáticamente la asincronía, por lo que no necesitas `done()`. De hecho, usar `done()` con promesas puede llevar a errores.
+
+*   **Llamar a `done()` una sola vez:**
+
+    Asegúrate de llamar a `done()` una sola vez dentro de la prueba. Llamarlo varias veces puede causar comportamientos inesperados.
+
+*   **Manejo de errores:**
+
+    Es importante manejar los errores dentro del código asíncrono y pasarlos a `done()` en caso de que ocurran, para que Jest pueda marcar la prueba como fallida.
+
+En resumen, `done()` es una herramienta útil para pruebas asíncronas en Jest, especialmente cuando se trabaja con callbacks. Sin embargo, es importante entender cuándo y cómo usarlo correctamente para evitar errores y asegurar que tus pruebas sean confiables.
+
 
 ### Otras características útiles
 
