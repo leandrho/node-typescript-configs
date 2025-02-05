@@ -293,6 +293,77 @@ En este ejemplo, utilizamos `jest.spyOn` para crear un espía sobre la función 
 En resumen, `spyOn` es una herramienta poderosa en Jest que nos permite "espiar" el comportamiento de funciones y realizar aserciones sobre ellas. Esto nos ayuda a escribir pruebas más completas y confiables.
 
 
+### expect.any()
+
+`expect.any()` toma un constructor como argumento (por ejemplo, `String`, `Number`, `Boolean`, `Function`, `Object`, `Array`, `Symbol`) y verifica si el valor que se está probando fue creado con ese constructor.
+
+**¿Para qué sirve `expect.any()`?**
+
+`expect.any()` es útil en situaciones donde:
+
+*   **No conoces el valor exacto:**
+
+    Estás probando una función que genera un valor dinámico (como un ID único o una fecha), y solo te importa verificar que sea del tipo correcto.
+
+*   **Te importa el tipo de dato, no el valor:**
+
+    Estás probando una función que recibe un argumento y solo necesitas asegurarte de que sea de un tipo específico (por ejemplo, un número o una cadena).
+
+*   **Estás probando objetos con propiedades de tipos variados:**
+
+    Quieres verificar que un objeto tenga propiedades de ciertos tipos, pero no te preocupan los valores específicos de esas propiedades.
+
+**Ejemplos de uso**
+
+1.  **Verificar si un valor es un número:**
+
+    ```javascript
+    expect(miFuncion()).toEqual(expect.any(Number));
+    ```
+
+2.  **Verificar si un valor es una cadena:**
+
+    ```javascript
+    expect(miVariable).toEqual(expect.any(String));
+    ```
+
+3.  **Verificar si un valor es un objeto:**
+
+    ```javascript
+    expect(miObjeto).toEqual(expect.any(Object));
+    ```
+
+4.  **Verificar si un array contiene elementos de cierto tipo:**
+
+    ```javascript
+    expect([1, 'hola', true]).toEqual([expect.any(Number), expect.any(String), expect.any(Boolean)]);
+    ```
+
+5.  **Verificar si un objeto tiene propiedades de ciertos tipos:**
+
+    ```javascript
+    const miObjeto = {
+      id: 123,
+      nombre: 'Juan',
+      activo: true,
+    };
+
+    expect(miObjeto).toEqual({
+      id: expect.any(Number),
+      nombre: expect.any(String),
+      activo: expect.any(Boolean),
+    });
+    ```
+
+**Consideraciones importantes**
+
+*   `expect.any()` solo verifica el tipo de dato, no el valor en sí.
+*   Puedes combinar `expect.any()` con otros matchers para realizar aserciones más específicas.
+*   Recuerda que `expect.any()` solo verifica si el valor fue *creado* con el constructor especificado. Esto significa que, por ejemplo, `expect.any(Number)` coincidirá con cualquier número, pero no con una cadena que se pueda convertir a número.
+
+En resumen, `expect.any()` es un matcher útil en Jest para verificar tipos de datos sin necesidad de conocer los valores exactos. Esto te permite escribir pruebas más flexibles y robustas, especialmente cuando trabajas con datos dinámicos o estructuras de datos complejas.
+
+
 ### Otras características útiles
 
 *   **Cobertura de código**: Jest puede generar informes de cobertura de código para mostrar qué partes de tu código están cubiertas por las pruebas.
