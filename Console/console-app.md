@@ -86,6 +86,78 @@ En este ejemplo, se define una interfaz `Args` para tipar los argumentos. Se def
     { _: [ 'saludar' ], nombre: 'John', apellido: 'Doe' }
 ```
 
+## Check
+
+La función `check` en Yargs te permite realizar validaciones personalizadas de los argumentos que el usuario proporciona a tu programa de línea de comandos. Es una herramienta poderosa para asegurarte de que los datos ingresados sean correctos y cumplan con los requisitos específicos de tu aplicación.
+
+### ¿Cómo funciona `check`?
+
+La función `check` recibe como argumento un objeto que contiene los argumentos ya analizados por Yargs. Puedes acceder a los valores de los argumentos a través de las propiedades de este objeto. Dentro de la función `check`, puedes realizar cualquier tipo de validación que necesites. Si la validación falla, debes lanzar un error (usando `throw new Error()`) con un mensaje descriptivo que le indique al usuario cuál fue el problema. Si la validación es exitosa, debes retornar `true` (o no retornar nada, ya que `true` es el valor por defecto).
+
+### Ejemplo de uso
+
+```javascript
+yargs
+  .option('nombre', {
+    alias: 'n',
+    describe: 'Tu nombre',
+    type: 'string',
+    demandOption: true,
+  })
+  .option('edad', {
+    alias: 'e',
+    describe: 'Tu edad',
+    type: 'number',
+    demandOption: true,
+  })
+  .check((argv) => {
+    if (argv.edad < 18) {
+      throw new Error('Debes ser mayor de edad para usar este programa.');
+    }
+    if (argv.nombre.length < 3) {
+      throw new Error('El nombre debe tener al menos 3 caracteres.');
+    }
+    return true;
+  })
+  .help()
+  .alias('help', 'h')
+  .argv;
+```
+
+En este ejemplo, se definen dos opciones: `nombre` y `edad`, ambas obligatorias. La función `check` se utiliza para validar que la edad sea mayor o igual a 18 y que la longitud del nombre sea al menos 3 caracteres. Si alguna de estas condiciones no se cumple, se lanza un error con un mensaje específico.
+
+### Validación asíncrona
+
+También puedes realizar validaciones asíncronas dentro de `check`. Para ello, debes retornar una promesa que se resuelva si la validación es exitosa o que se rechace con un error si la validación falla.
+
+```javascript
+yargs
+  .option('archivo', {
+    alias: 'a',
+    describe: 'Ruta del archivo',
+    type: 'string',
+    demandOption: true,
+  })
+  .check(async (argv) => {
+    try {
+      await fs.promises.access(argv.archivo, fs.constants.F_OK);
+      return true;
+    } catch (error) {
+      throw new Error('El archivo no existe.');
+    }
+  })
+  .help()
+  .alias('help', 'h')
+  .argv;
+```
+
+En este ejemplo, se utiliza la función `fs.promises.access` para verificar si el archivo especificado por el usuario existe. Esta función retorna una promesa, por lo que `check` puede esperar a que la promesa se resuelva o se rechace antes de continuar.
+
+### En resumen
+
+La función `check` en Yargs te brinda la flexibilidad necesaria para realizar validaciones personalizadas de los argumentos de tu programa de línea de comandos. Puedes utilizarla para validar tipos de datos, rangos de valores, formatos específicos, dependencias entre argumentos y cualquier otra condición que necesites. ¡Es una herramienta fundamental para crear programas robustos y fáciles de usar!
+
+
 ### Ejemplos de uso con TypeScript
 
 * **Herramientas de desarrollo**: Yargs se utiliza comúnmente para crear herramientas de línea de comandos para desarrolladores, como herramientas de compilación, linters o generadores de código.
