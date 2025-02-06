@@ -25,6 +25,20 @@ npx tsc --init --outDir dist/ --rootDir src --esModuleInterop true --resolveJson
 *   `--esModuleInterop true`: Habilita la interoperabilidad entre módulos CommonJS y ES modules.
 *   `--resolveJsonModule true`: Permite importar archivos JSON como módulos.
 
+Recomentación: En el tsconfig.json se puede incluir y excluir archivos y/o directorios, para el caso de node se recomienda excluir __node_modules__
+e incluir __`src/**/*`__. Para esto agregar el __exclude__ y el __include__ en el archivo tsconfig.json
+
+```json
+{
+  "exclude": ["node_modules"],
+  "include": ["src/**/*"],
+  "compilerOptions" : {
+    /* all options */
+  }
+}
+```
+
+
 **3. Crea el archivo de configuración de Nodemon:**
 
 **.nodemon.json**
