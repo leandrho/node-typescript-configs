@@ -1,5 +1,7 @@
 # Conceptos de Javascript
 
+## Refactorización
+Basicamente es el proceso de cambiar el codigo para mejorar su estructura, legibilidad y mantenibilidad sin cambiar su funcionalidad. Se hace para optimizar el rendimiento, reducir la duplicación y facilitar futuras modificaciones.
 
 ## Funciones anónimas autoinvocadas
 Las funciones anónimas autoinvocadas en JavaScript, también conocidas como IIFE (Immediately Invoked Function Expression), son funciones que se definen y se ejecutan inmediatamente después de su definición.
