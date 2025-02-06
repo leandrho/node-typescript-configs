@@ -74,16 +74,16 @@ En este ejemplo, se define una interfaz `Args` para tipar los argumentos. Se def
     node mi-programa.js --nombre "John"
 ```
 ```
-    Hola, Juan!
-    { _: [], nombre: 'Juan' }
+    Hola, John!
+    { _: [], nombre: 'John' }
 ```
 
 ```bash
-    node mi-programa.js saludar --nombre "Ana" --apellido "Pérez"
+    node mi-programa.js saludar --nombre "John" --apellido "Doe"
 ```
 ```
-    Hola, Ana Pérez!
-    { _: [ 'saludar' ], nombre: 'Ana', apellido: 'Pérez' }
+    Hola, John Doe!
+    { _: [ 'saludar' ], nombre: 'John', apellido: 'Doe' }
 ```
 
 ### Ejemplos de uso con TypeScript
