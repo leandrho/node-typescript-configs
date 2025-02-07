@@ -95,16 +95,91 @@ it('debería obtener datos de la API', async () => {
 
 ### Mocks
 
-Los mocks son objetos simulados que se utilizan para aislar la unidad que se está probando de sus dependencias. Jest facilita la creación de mocks para funciones, clases y módulos.
+Los **mocks** son una herramienta, que nos permiten simular el comportamiento de dependencias externas o componentes complejos para aislar la unidad que estamos probando.
+En esencia, un mock es un objeto o función que reemplaza a una dependencia real durante las pruebas. Esta dependencia puede ser una función, un módulo, una clase o incluso un servicio externo. El mock imita el comportamiento de la dependencia real, permitiéndonos controlar su salida y observar cómo interactúa con la unidad bajo prueba.
 
-```javascript
-const miFuncionMock = jest.fn();
-miFuncionMock.mockReturnValue(10);
+### ¿Para qué sirven los mocks?
 
-miFuncionMock(); // Llama al mock
-expect(miFuncionMock).toHaveBeenCalled(); // Verifica si se llamó al mock
-expect(miFuncionMock()).toBe(10); // Verifica el valor de retorno del mock
+Los mocks son útiles en una variedad de situaciones, incluyendo:
+
+* **Aislamiento de la unidad bajo prueba:** Al simular las dependencias, nos aseguramos de que la prueba se centre exclusivamente en la lógica de la unidad que estamos probando, sin verse afectada por el comportamiento de otros componentes.
+* **Simulación de comportamientos complejos:** Podemos usar mocks para simular escenarios complejos o casos límite que serían difíciles de reproducir en un entorno real.
+* **Control del flujo de datos:** Los mocks nos permiten definir las entradas y salidas de las dependencias, lo que nos da un control total sobre el flujo de datos durante la prueba.
+* **Observación de interacciones:** Podemos usar mocks para registrar las llamadas a las dependencias y verificar si se llaman con los argumentos correctos y el número de veces esperado.
+
+### ¿Cómo se usan los mocks en Jest con TypeScript y Node.js?
+
+Jest ofrece varias formas de crear mocks, adaptándose a diferentes necesidades. A continuación, te presento algunas de las técnicas más comunes:
+
+#### 1. Funciones Mock
+
+Podemos crear funciones mock utilizando `jest.fn()`. Estas funciones pueden ser configuradas para retornar valores específicos, lanzar errores o simular cualquier otro comportamiento que necesitemos.
+
+```typescript
+// Ejemplo: Mock de una función que calcula el área de un círculo
+const calcularArea = jest.fn((radio: number) => Math.PI * radio * radio);
+
+// Llamamos a la función mock
+calcularArea(5);
+
+// Verificamos que la función fue llamada con el argumento correcto
+expect(calcularArea).toHaveBeenCalledWith(5);
+
+// Verificamos que la función retornó el valor esperado
+expect(calcularArea(5)).toBe(Math.PI * 5 * 5);
 ```
+
+#### 2. Mocks de módulos
+
+Podemos simular módulos completos utilizando `jest.mock()`. Esto nos permite reemplazar un módulo real con un mock que definamos.
+
+```typescript
+// Ejemplo: Mock del módulo 'fs' para simular la lectura de un archivo
+jest.mock('fs', () => ({
+  readFileSync: jest.fn(() => 'Contenido del archivo mock'),
+}));
+
+import * as fs from 'fs';
+
+// Llamamos a la función del módulo mockeado
+const contenido = fs.readFileSync('archivo.txt', 'utf8');
+
+// Verificamos que la función fue llamada con los argumentos correctos
+expect(fs.readFileSync).toHaveBeenCalledWith('archivo.txt', 'utf8');
+
+// Verificamos que la función retornó el valor esperado
+expect(contenido).toBe('Contenido del archivo mock');
+```
+
+#### 3. Mocks de clases
+
+También podemos simular clases utilizando `jest.mock()`. Esto nos permite reemplazar una clase real con un mock que definamos.
+
+```typescript
+// Ejemplo: Mock de la clase 'Logger' para simular el registro de mensajes
+jest.mock('./logger', () => {
+  return jest.fn(() => ({
+    log: jest.fn(),
+  }));
+});
+
+import { Logger } from './logger';
+
+// Obtenemos una instancia de la clase mockeada
+const logger = new Logger();
+
+// Llamamos a un método de la clase mockeada
+logger.log('Mensaje de prueba');
+
+// Verificamos que el método fue llamado con el argumento correcto
+expect(logger.log).toHaveBeenCalledWith('Mensaje de prueba');
+```
+
+### Conclusión
+
+Los mocks son una herramienta poderosa que nos permite realizar pruebas unitarias de manera efectiva. Al simular dependencias y controlar el flujo de datos, podemos aislar la unidad bajo prueba y garantizar que nuestro código funcione correctamente. Jest ofrece varias formas de crear mocks, adaptándose a diferentes necesidades y escenarios.
+
+
 ### Done
 
 **Done()**
