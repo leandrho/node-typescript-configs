@@ -183,6 +183,15 @@ app.post("/users", UserController.create);
 
 app.listen(3000, () => console.log("Server running on port 3000"));
 ```
+---
+
+## ** Nota **
+En la **Arquitectura Limpia**, cada capa solo puede depender de capas **más internas**, pero **nunca de capas más externas**. Entonces, ¿por qué `CreateUser` puede referenciar tanto a `User` como a `UserRepository`?
+
+### **📌 Regla clave: Dependencias siempre hacia adentro**
+La capa de **Casos de Uso** (`application/use-cases`) **puede** depender de:
+1. **Entidades (`domain/entities`)** porque están en un nivel más bajo.
+2. **Interfaces (`application/interfaces`)** porque son solo contratos (abstracciones), **no implementaciones**.
 
 ---
 
