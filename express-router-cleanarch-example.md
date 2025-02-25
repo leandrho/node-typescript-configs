@@ -201,6 +201,8 @@ app.use('/users', userRoutes);
 export default app;
 ```
 
+**app.use(express.json());** es un middleware de Express que permite que nuestra API interprete JSON automáticamente en req.body, evitando tener que manejar manualmente la conversión de datos en cada controlador.
+
 ---
 
 ## **7️⃣ Iniciar el Servidor (`server.ts`)**
