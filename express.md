@@ -68,3 +68,64 @@ En este ejemplo:
 * **Mejor documentación:** Los tipos sirven como documentación implícita del código.
 * **Mayor productividad:** El autocompletado y la verificación de tipos mejoran la experiencia de desarrollo.
 
+En **Express**, las *routes* (rutas) son la forma en que definimos las direcciones a las que un servidor puede responder. Se organizan con `express.Router` y pueden manejar diferentes métodos HTTP (`GET`, `POST`, `PUT`, `DELETE`, etc.).
+
+---
+
+## 🔹 **Ejemplo de rutas en Express con TypeScript**
+
+### **1. Crear el servidor en `src/index.ts`**
+```ts
+import express from 'express';
+import userRoutes from './routes/user.routes';
+
+const app = express();
+app.use(express.json()); // Middleware para JSON
+app.use('/users', userRoutes); // Montar las rutas de usuarios
+
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`));
+```
+
+---
+
+### **2. Definir las rutas en `src/routes/user.routes.ts`**
+```ts
+import { Router } from 'express';
+
+const router = Router();
+
+router.get('/', (req, res) => {
+  res.json({ message: 'Lista de usuarios' });
+});
+
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
+  res.json({ message: `Usuario con ID: ${id}` });
+});
+
+router.post('/', (req, res) => {
+  const { name } = req.body;
+  res.status(201).json({ message: `Usuario ${name} creado` });
+});
+
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  res.json({ message: `Usuario con ID: ${id} actualizado` });
+});
+
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  res.json({ message: `Usuario con ID: ${id} eliminado` });
+});
+
+export default router;
+```
+
+---
+
+## 🔹 **Conclusión**
+- `express.Router()` permite modularizar las rutas.
+- Se pueden definir rutas con `GET`, `POST`, `PUT`, `DELETE`.
+- Se usa `req.params` para obtener parámetros de la URL.
+- Se usa `req.body` para leer datos en peticiones `POST` o `PUT`.
