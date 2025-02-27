@@ -1,72 +1,111 @@
-# Domain-Driven Design(DDD
+# Domain-Driven Design(DDD)
 
-El **patrón de diseño guiado por el dominio (Domain-Driven Design, DDD)** es un enfoque de desarrollo de software que enfatiza la organización del código en torno al **modelo de dominio** de la aplicación. En **Node.js con TypeScript**, se utiliza para crear aplicaciones estructuradas, escalables y mantenibles.
-
----
-
-## 📌 **Principios Claves de DDD**
-1. **Modelo de dominio**: Representa las reglas y lógica del negocio.
-2. **Lenguaje ubicuo**: Un vocabulario compartido entre desarrolladores y expertos del dominio.
-3. **Separación de responsabilidades**: Divide la aplicación en capas bien definidas.
-4. **Bounded Contexts (Contextos delimitados)**: Cada subdominio tiene su propio modelo de dominio.
-5. **Agregados y entidades**: Las entidades agrupan datos y lógica de negocio, mientras que los agregados controlan la consistencia.
+El **patrón de diseño guiado por el dominio (Domain-Driven Design, DDD)** en un entorno **Node.js con TypeScript**, combinado con **arquitectura limpia (Clean Architecture)**, es una forma estructurada de diseñar aplicaciones de software enfocándose en el **dominio del problema** y manteniendo el código modular, desacoplado y fácil de mantener.
 
 ---
 
-## 🏗 **Arquitectura de DDD en Node.js con TypeScript**
-En un proyecto de Node.js con TypeScript, DDD se implementa dividiendo la aplicación en **capas**:
+## 🔹 Conceptos clave
 
-1. **Capa de Dominio (`domain/`)** → Contiene reglas de negocio.
-2. **Capa de Aplicación (`application/`)** → Orquesta casos de uso.
-3. **Capa de Infraestructura (`infrastructure/`)** → Maneja bases de datos, API y frameworks.
-4. **Capa de Interfaz (`presentation/`)** → Expone endpoints y recibe solicitudes.
+1. **Domain-Driven Design (DDD)**
+   Se basa en la idea de que la lógica de negocio debe ser el núcleo de la aplicación, separándola de detalles como la infraestructura y las interfaces de usuario.
+
+2. **Clean Architecture**
+   Separa la aplicación en **capas bien definidas**, donde cada capa tiene una responsabilidad específica, evitando dependencias innecesarias.
 
 ---
 
-## 📂 **Estructura de Carpetas en Node.js con TypeScript**
-```bash
-src/
-│── domain/         # Reglas de negocio
-│   ├── entities/   # Entidades y agregados
-│   ├── repositories/ # Interfaces de persistencia
-│   ├── services/   # Lógica del dominio
-│── application/    # Casos de uso
-│── infrastructure/ # Implementación de persistencia, APIs, frameworks
-│── presentation/   # Controladores, HTTP, GraphQL
-│── shared/         # Código común (errores, utils)
+## 🔹 Arquitectura basada en capas con DDD y Clean Architecture
+
+La arquitectura suele dividirse en cuatro capas principales:
+
+1. **Capa de dominio (Domain Layer)**
+   - Representa el **corazón de la aplicación**.
+   - Define **entidades, agregados, objetos de valor e interfaces de repositorio**.
+   - **NO tiene dependencias externas.**
+
+2. **Capa de aplicación (Application Layer)**
+   - Contiene los **casos de uso (use cases)** que orquestan la lógica de negocio.
+   - Se encarga de interactuar con la capa de dominio sin preocuparse por detalles técnicos.
+   - Usa **interfaces** para comunicarse con la infraestructura.
+
+3. **Capa de infraestructura (Infrastructure Layer)**
+   - Implementa los **repositorios**, **ORMs**, **APIs externas**, **logs**, etc.
+   - Satisface las interfaces definidas en la capa de dominio.
+
+4. **Capa de interfaz de usuario (Presentation Layer)**
+   - Se encarga de manejar la interacción con el usuario (REST API, GraphQL, CLI, etc.).
+   - Consume los casos de uso definidos en la capa de aplicación.
+
+---
+
+## 🔹 Implementación en Node.js con TypeScript
+
+A continuación, se presenta una estructura de carpetas basada en Clean Architecture con DDD:
+
+```
+/src
+ ├── /domain
+ │   ├── /entities
+ │   │   ├── User.ts
+ │   ├── /value-objects
+ │   │   ├── Email.ts
+ │   ├── /repositories
+ │   │   ├── IUserRepository.ts
+ │   ├── /services
+ │   │   ├── UserService.ts
+ │
+ ├── /application
+ │   ├── /use-cases
+ │   │   ├── CreateUserUseCase.ts
+ │   │   ├── GetUserByIdUseCase.ts
+ │
+ ├── /infrastructure
+ │   ├── /repositories
+ │   │   ├── UserRepository.ts
+ │   ├── /database
+ │   │   ├── prisma.ts
+ │
+ ├── /presentation
+ │   ├── /controllers
+ │   │   ├── UserController.ts
+ │   ├── /routes
+ │   │   ├── userRoutes.ts
+ │
+ ├── /config
+ │   ├── env.ts
+ │
+ ├── /shared
+ │   ├── AppError.ts
+ │   ├── Result.ts
+ │
+ ├── server.ts
 ```
 
 ---
 
-## 🚀 **Ejemplo de Implementación en TypeScript**
-### **1️⃣ Definir una Entidad en el Dominio**
-Una entidad representa un objeto con identidad única dentro del dominio.
+## 🔹 Explicación con código
 
-```ts
-// src/domain/entities/User.ts
+### **1️⃣ Capa de dominio (Domain Layer)**
+Define las reglas de negocio sin preocuparse por cómo se implementarán.
+
+#### 📌 **Entidad: `User.ts`**
+```typescript
 export class User {
   constructor(
     public readonly id: string,
     public name: string,
     public email: string
-  ) {
-    if (!email.includes("@")) {
-      throw new Error("Email inválido");
-    }
+  ) {}
+
+  changeEmail(newEmail: string) {
+    this.email = newEmail;
   }
 }
 ```
 
----
-
-### **2️⃣ Crear un Repositorio (Interfaz)**
-Los repositorios definen la forma en que interactuamos con la persistencia, pero sin implementarla directamente.
-
-```ts
-// src/domain/repositories/UserRepository.ts
-import { User } from "../entities/User";
-
-export interface UserRepository {
+#### 📌 **Interfaz del repositorio: `IUserRepository.ts`**
+```typescript
+export interface IUserRepository {
   findById(id: string): Promise<User | null>;
   save(user: User): Promise<void>;
 }
@@ -74,16 +113,16 @@ export interface UserRepository {
 
 ---
 
-### **3️⃣ Implementar el Caso de Uso**
-Los casos de uso encapsulan la lógica de aplicación sin depender de detalles de infraestructura.
+### **2️⃣ Capa de aplicación (Application Layer)**
+Define los casos de uso que utilizan las entidades.
 
-```ts
-// src/application/use-cases/CreateUser.ts
+#### 📌 **Caso de uso: `CreateUserUseCase.ts`**
+```typescript
 import { User } from "../../domain/entities/User";
-import { UserRepository } from "../../domain/repositories/UserRepository";
+import { IUserRepository } from "../../domain/repositories/IUserRepository";
 
-export class CreateUser {
-  constructor(private userRepository: UserRepository) {}
+export class CreateUserUseCase {
+  constructor(private userRepository: IUserRepository) {}
 
   async execute(name: string, email: string): Promise<User> {
     const user = new User(Date.now().toString(), name, email);
@@ -95,83 +134,94 @@ export class CreateUser {
 
 ---
 
-### **4️⃣ Implementar la Infraestructura (Base de Datos)**
-Aquí usamos una base de datos, como MongoDB o PostgreSQL, implementando la interfaz del repositorio.
+### **3️⃣ Capa de infraestructura (Infrastructure Layer)**
+Implementa los repositorios con una base de datos.
 
-```ts
-// src/infrastructure/repositories/InMemoryUserRepository.ts
-import { UserRepository } from "../../domain/repositories/UserRepository";
+#### 📌 **Repositorio con Prisma: `UserRepository.ts`**
+```typescript
+import { PrismaClient } from "@prisma/client";
+import { IUserRepository } from "../../domain/repositories/IUserRepository";
 import { User } from "../../domain/entities/User";
 
-export class InMemoryUserRepository implements UserRepository {
-  private users: User[] = [];
+const prisma = new PrismaClient();
 
+export class UserRepository implements IUserRepository {
   async findById(id: string): Promise<User | null> {
-    return this.users.find(user => user.id === id) || null;
+    const user = await prisma.user.findUnique({ where: { id } });
+    return user ? new User(user.id, user.name, user.email) : null;
   }
 
   async save(user: User): Promise<void> {
-    this.users.push(user);
+    await prisma.user.create({
+      data: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    });
   }
 }
 ```
 
 ---
 
-### **5️⃣ Crear el Controlador**
-Aquí exponemos el caso de uso a través de una API.
+### **4️⃣ Capa de presentación (Presentation Layer)**
+Define los controladores y rutas.
 
-```ts
-// src/presentation/controllers/UserController.ts
+#### 📌 **Controlador: `UserController.ts`**
+```typescript
 import { Request, Response } from "express";
-import { CreateUser } from "../../application/use-cases/CreateUser";
-import { InMemoryUserRepository } from "../../infrastructure/repositories/InMemoryUserRepository";
-
-const userRepository = new InMemoryUserRepository();
-const createUser = new CreateUser(userRepository);
+import { CreateUserUseCase } from "../../application/use-cases/CreateUserUseCase";
+import { UserRepository } from "../../infrastructure/repositories/UserRepository";
 
 export class UserController {
-  static async create(req: Request, res: Response) {
+  async createUser(req: Request, res: Response) {
     const { name, email } = req.body;
-    try {
-      const user = await createUser.execute(name, email);
-      res.status(201).json(user);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
+    const userRepository = new UserRepository();
+    const createUserUseCase = new CreateUserUseCase(userRepository);
+
+    const user = await createUserUseCase.execute(name, email);
+    return res.status(201).json(user);
   }
 }
 ```
 
+#### 📌 **Rutas: `userRoutes.ts`**
+```typescript
+import { Router } from "express";
+import { UserController } from "../controllers/UserController";
+
+const router = Router();
+const userController = new UserController();
+
+router.post("/users", userController.createUser);
+
+export default router;
+```
+
 ---
 
-### **6️⃣ Configurar Express**
-Finalmente, creamos el servidor Express para manejar las solicitudes.
-
-```ts
-// src/infrastructure/server.ts
+### **5️⃣ Servidor con Express**
+```typescript
 import express from "express";
-import { UserController } from "../presentation/controllers/UserController";
+import userRoutes from "./presentation/routes/userRoutes";
 
 const app = express();
 app.use(express.json());
+app.use("/api", userRoutes);
 
-app.post("/users", UserController.create);
-
-app.listen(3000, () => {
-  console.log("🚀 Server running on http://localhost:3000");
-});
+app.listen(3000, () => console.log("Server running on port 3000"));
 ```
 
 ---
 
-## ✅ **Beneficios de DDD en Node.js con TypeScript**
-✔ **Código más organizado y escalable**
-✔ **Facilita pruebas unitarias**
-✔ **Mejor separación de responsabilidades**
-✔ **Flexibilidad para cambiar la infraestructura sin afectar la lógica de negocio**
+## 🔹 Beneficios de esta arquitectura
+✅ **Código modular y reutilizable**
+✅ **Separación de preocupaciones**
+✅ **Fácil mantenimiento y escalabilidad**
+✅ **Permite cambiar la infraestructura sin afectar la lógica de negocio**
 
 ---
 
-## 🎯 **Conclusión**
-El **Domain-Driven Design (DDD)** ayuda a estructurar aplicaciones en Node.js con TypeScript separando **dominio, aplicación, infraestructura e interfaz**. Aunque agrega una curva de aprendizaje y requiere mayor esfuerzo inicial, la arquitectura resultante es **modular, mantenible y escalable**.
+## 🔹 Conclusión
+El **Domain-Driven Design (DDD)** en **Node.js con TypeScript**, combinado con **Clean Architecture**, permite diseñar sistemas robustos y bien estructurados. Separa claramente la lógica de negocio, los casos de uso y la infraestructura, haciendo que el código sea mantenible y flexible ante cambios.
