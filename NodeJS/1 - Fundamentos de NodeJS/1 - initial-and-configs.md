@@ -95,17 +95,31 @@ console.log("¡Hola desde Node.js con TypeScript y Nodemon!");
 *   Puedes personalizar el archivo de configuración de TypeScript (`tsconfig.json`) para ajustar las opciones del compilador.
 *   Puedes agregar más scripts en `package.json` para tareas como pruebas, linting, etc.
 
+---
 
-## @types/node
+## Definiciones de tipos
+Los paquetes de **definiciones de tipos** (como los que empiezan con @types/ en npm) son archivos que describen la estructura de una biblioteca o módulo JavaScript para que TypeScript pueda entenderlo.
 
 Los **`@types/node`** son paquetes de **definiciones de tipos TypeScript** para el entorno de ejecución **Node.js**. Proporcionan información sobre los tipos de datos (interfaces, funciones, clases, etc.) de los módulos nativos de Node.js (como `fs`, `http`, `path`, etc.), permitiendo que TypeScript entienda y valide el código que utiliza estas APIs.
 
 ---
 
 ### **¿Para qué sirven?**
-- **Autocompletado inteligente**: Ayudan a los editores (VS Code, WebStorm, etc.) a ofrecer sugerencias precisas.
-- **Verificación de tipos**: TypeScript comprueba que uses correctamente las funciones y módulos de Node.js.
-- **Documentación en tiempo de desarrollo**: Muestran descripciones de parámetros y valores de retorno directamente en el editor.
+1. **Habilitar el soporte de TypeScript para bibliotecas JS**:
+   - TypeScript necesita conocer los **tipos de datos** (funciones, clases, parámetros, objetos, etc.) de una biblioteca JavaScript para validar tu código.
+   - Estas definiciones actúan como un "manual de instrucciones" para TypeScript.
+
+2. **Mejorar la experiencia de desarrollo**:
+   - Autocompletado inteligente en editores (VS Code, WebStorm, etc.).
+   - Verificación de errores en tiempo real (ej: parámetros incorrectos).
+   - Documentación integrada (hover sobre funciones para ver descripciones).
+
+---
+
+### **¿Qué hacen exactamente?**
+- **Definen tipos**: Estructuras como `interfaces`, `types`, `clases`, etc., para funciones y objetos de una biblioteca.
+- **Declaran módulos**: Indican cómo se exportan/importan los elementos (ej: `export function sum(a: number, b: number): number`).
+- **Agregan metadata**: Descripciones de parámetros, valores de retorno, errores, etc.
 
 ---
 
