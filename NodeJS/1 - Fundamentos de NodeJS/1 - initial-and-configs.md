@@ -176,3 +176,30 @@ fs.readFile('file.txt', (err: NodeJS.ErrnoException | null, data: Buffer) => {
 - **Dependencia de desarrollo**: No se incluyen en el código de producción.
 - **Versiones**: Deben coincidir con la versión de Node.js que uses (ej: `@types/node@18` para Node.js 18).
 - **Alternativa**: Si una biblioteca ya incluye tipos (como `"types"` en su `package.json`), no necesitas `@types/nombre-biblioteca`.
+
+---
+
+## ts-node
+
+**`ts-node`** es una herramienta que permite ejecutar directamente archivos TypeScript (`.ts`) en Node.js **sin necesidad de compilarlos previamente a JavaScript**. Simplifica el flujo de desarrollo al eliminar el paso manual de transpilación. Aquí te explico en detalle:
+
+---
+
+### **¿Para qué sirve?**
+- **Ejecutar TypeScript directamente**: Corre archivos `.ts` como si fueran `.js`, ideal para desarrollo rápido.
+- **Evitar pasos manuales**: No necesitas ejecutar `tsc` (TypeScript Compiler) para generar archivos `.js` antes de usar `node`.
+- **Integración con herramientas**: Útil en scripts, pruebas (con Mocha/Jest), o aplicaciones que requieren ejecución en tiempo real.
+
+---
+
+### **¿Cómo funciona?**
+1. **Registro en Node.js**:
+   - `ts-node` se registra como un módulo de Node.js que intercepta las solicitudes para cargar archivos `.ts` o `.tsx`.
+   - Cuando ejecutas `ts-node archivo.ts`, compila el código TypeScript **en memoria** (sin generar archivos `.js` en disco).
+
+2. **Compilación bajo el capó**:
+   - Usa el compilador de TypeScript (`tsc`) para transformar el código TypeScript a JavaScript.
+   - Aplica la configuración de tu `tsconfig.json` (si existe).
+
+3. **Ejecución del código**:
+   - Una vez compilado, el código JavaScript resultante se ejecuta directamente en Node.js.
