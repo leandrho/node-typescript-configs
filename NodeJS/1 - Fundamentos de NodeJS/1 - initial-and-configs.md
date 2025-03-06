@@ -94,3 +94,71 @@ console.log("¡Hola desde Node.js con TypeScript y Nodemon!");
 
 *   Puedes personalizar el archivo de configuración de TypeScript (`tsconfig.json`) para ajustar las opciones del compilador.
 *   Puedes agregar más scripts en `package.json` para tareas como pruebas, linting, etc.
+
+
+## @types/node
+
+Los **`@types/node`** son paquetes de **definiciones de tipos TypeScript** para el entorno de ejecución **Node.js**. Proporcionan información sobre los tipos de datos (interfaces, funciones, clases, etc.) de los módulos nativos de Node.js (como `fs`, `http`, `path`, etc.), permitiendo que TypeScript entienda y valide el código que utiliza estas APIs.
+
+---
+
+### **¿Para qué sirven?**
+- **Autocompletado inteligente**: Ayudan a los editores (VS Code, WebStorm, etc.) a ofrecer sugerencias precisas.
+- **Verificación de tipos**: TypeScript comprueba que uses correctamente las funciones y módulos de Node.js.
+- **Documentación en tiempo de desarrollo**: Muestran descripciones de parámetros y valores de retorno directamente en el editor.
+
+---
+
+### **Contexto**
+- **TypeScript** necesita conocer la estructura de las bibliotecas JavaScript para trabajar con ellas.
+- **Node.js** está escrito en JavaScript, por lo que TypeScript no tiene información de tipos por defecto.
+- **DefinitelyTyped**: Es un repositorio comunitario que aloja definiciones de tipos. Los paquetes `@types/*` (como `@types/node`) se publican desde aquí.
+
+---
+
+### **¿Cómo se usan?**
+1. **Instalación**:
+   ```bash
+   npm install --save-dev @types/node
+   ```
+   o
+   ```bash
+   yarn add -D @types/node
+   ```
+
+2. **En tu código TypeScript**:
+   ```typescript
+   import fs from 'fs'; // TypeScript ahora conoce los tipos de 'fs'
+   ```
+
+---
+
+### **Ejemplo práctico**
+Sin `@types/node`, TypeScript no sabe qué parámetros acepta `fs.readFile`:
+```typescript
+// Sin @types/node
+fs.readFile('file.txt', (err, data) => {
+  // TypeScript no verifica tipos de 'err' o 'data'
+});
+```
+
+Con `@types/node`:
+```typescript
+// Con @types/node
+fs.readFile('file.txt', (err: NodeJS.ErrnoException | null, data: Buffer) => {
+  // TypeScript valida que 'err' sea null o un error, y 'data' un Buffer
+});
+```
+
+---
+
+### **¿Cuándo son necesarios?**
+- Siempre que uses **TypeScript** con **Node.js**.
+- Si usas una versión moderna de Node.js (v16+), algunas definiciones pueden estar incluidas, pero `@types/node` asegura cobertura completa y actualizada.
+
+---
+
+### **Notas clave**
+- **Dependencia de desarrollo**: No se incluyen en el código de producción.
+- **Versiones**: Deben coincidir con la versión de Node.js que uses (ej: `@types/node@18` para Node.js 18).
+- **Alternativa**: Si una biblioteca ya incluye tipos (como `"types"` en su `package.json`), no necesitas `@types/nombre-biblioteca`.
