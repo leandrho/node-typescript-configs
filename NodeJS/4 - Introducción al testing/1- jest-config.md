@@ -2,7 +2,7 @@
 
 ## ¿Qué es Jest?
 
-[Jest](https://jestjs.io/) es un **framework de testing** de JavaScript desarrollado por Meta. Está diseñado para ser rápido, sencillo y ofrecer una configuración mínima. Es ampliamente utilizado en proyectos frontend y backend gracias a su compatibilidad con TypeScript, su integración con múltiples entornos y su facilidad de uso.
+**Jest** es un **framework de testing** de JavaScript desarrollado por Meta. Está diseñado para ser rápido, sencillo y ofrecer una configuración mínima. Es ampliamente utilizado en proyectos frontend y backend gracias a su compatibilidad con TypeScript, su integración con múltiples entornos y su facilidad de uso.
 
 ## ¿Por qué es importante en Node.js?
 
@@ -14,7 +14,7 @@ En el contexto de Node.js, Jest es una herramienta clave para garantizar la **ca
 - ✅ **Ejecuta pruebas en paralelo**: Optimiza el rendimiento en entornos de CI/CD.
 - ✅ **Genera informes de cobertura de código**, permitiendo identificar áreas sin pruebas.
 
-Gracias a su compatibilidad con TypeScript y su facilidad de uso, Jest es una de las herramientas más populares para testing en entornos Node.js. 🚀
+Gracias a su compatibilidad con TypeScript y su facilidad de uso, Jest es una de las herramientas más populares para testing en entornos Node.js.
 
 ---
 
