@@ -1,6 +1,6 @@
 ## Tutorial de Jest
 
-Jest es un framework de pruebas de JavaScript ampliamente utilizado y mantenido por Facebook. Su popularidad se debe a su facilidad de uso, su rica funcionalidad y su integración perfecta con proyectos de React, aunque funciona con cualquier proyecto de JavaScript o Typescript. Jest nos proporciona las herramientas necesarias para escribir, ejecutar y depurar pruebas de manera eficiente.
+**Jest** es un framework de pruebas de JavaScript ampliamente utilizado y mantenido por Facebook. Su popularidad se debe a su facilidad de uso, su rica funcionalidad y su integración perfecta con proyectos de React, aunque funciona con cualquier proyecto de JavaScript o Typescript. Jest nos proporciona las herramientas necesarias para escribir, ejecutar y depurar pruebas de manera eficiente.
 
 ### Estructura básica de una prueba con Jest
 
@@ -179,6 +179,7 @@ expect(logger.log).toHaveBeenCalledWith('Mensaje de prueba');
 
 Los mocks son una herramienta poderosa que nos permite realizar pruebas unitarias de manera efectiva. Al simular dependencias y controlar el flujo de datos, podemos aislar la unidad bajo prueba y garantizar que nuestro código funcione correctamente. Jest ofrece varias formas de crear mocks, adaptándose a diferentes necesidades y escenarios.
 
+---
 
 ### Done
 
@@ -269,6 +270,7 @@ it('debería obtener datos de la API', (done) => {
 
 En resumen, `done()` es una herramienta útil para pruebas asíncronas en Jest, especialmente cuando se trabaja con callbacks. Sin embargo, es importante entender cuándo y cómo usarlo correctamente para evitar errores y asegurar que tus pruebas sean confiables.
 
+---
 
 ### spyOn
 
@@ -367,6 +369,7 @@ En este ejemplo, utilizamos `jest.spyOn` para crear un espía sobre la función 
 
 En resumen, `spyOn` es una herramienta poderosa en Jest que nos permite "espiar" el comportamiento de funciones y realizar aserciones sobre ellas. Esto nos ayuda a escribir pruebas más completas y confiables.
 
+---
 
 ### expect.any()
 
@@ -438,6 +441,7 @@ En resumen, `spyOn` es una herramienta poderosa en Jest que nos permite "espiar"
 
 En resumen, `expect.any()` es un matcher útil en Jest para verificar tipos de datos sin necesidad de conocer los valores exactos. Esto te permite escribir pruebas más flexibles y robustas, especialmente cuando trabajas con datos dinámicos o estructuras de datos complejas.
 
+---
 
 ### expect.objectContaining
 
@@ -519,6 +523,7 @@ En resumen, `expect.any()` es un matcher útil en Jest para verificar tipos de d
 
 En resumen, `expect.objectContaining` es un matcher útil en Jest para verificar si un objeto contiene un conjunto específico de propiedades, sin necesidad de que coincida con todas las propiedades del objeto. Esto te permite escribir pruebas más flexibles y robustas, especialmente cuando trabajas con objetos complejos o datos dinámicos.
 
+---
 
 ### Otras características útiles
 
